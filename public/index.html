@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSA Photo Portal | Student Login</title>
+    <title>CSA Photo Portal | Student Access</title>
     <style>
         :root {
             --csa-blue: #004a99;
-            --csa-bg: #f4f7fa;
-            --csa-border: #dbeafe;
-            --text-dark: #1e293b;
+            --csa-accent: #e2e8f0;
+            --text-main: #1e293b;
             --error: #e11d48;
             --success: #10b981;
         }
@@ -17,52 +16,92 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--csa-bg);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #fff;
             height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* --- SECTION 1: VISUAL BRANDING --- */
+        .brand-section {
+            flex: 1.2;
+            background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), 
+                        url('https://images.unsplash.com/photo-1523050853021-ebd61390d78e?auto=format&fit=crop&q=80&w=1000');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .brand-logo {
+            width: 140px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .brand-section h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        /* --- SECTION 2: LOGIN PORTAL --- */
+        .login-section {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .login-card {
-            width: 380px;
-            background: white;
-            border-radius: 6px;
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.05);
-            border-top: 5px solid var(--csa-blue);
-            padding: 45px 35px;
-            text-align: center;
+            background-color: #f8fafc;
+            padding: 40px;
             position: relative;
         }
 
-        /* Anti-Bot Honeypot */
+        .login-box {
+            width: 100%;
+            max-width: 380px;
+            background: white;
+            padding: 45px;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--csa-accent);
+        }
+
+        /* Honeypot */
         .hp { position: absolute; left: -5000px; top: -5000px; }
 
-        .logo {
-            width: 130px; /* Adjusted size for CSA logo */
-            margin-bottom: 20px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
-        }
-
         h2 {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: var(--csa-blue);
+            margin: 0 0 10px;
             font-weight: 700;
-            margin: 0 0 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        p {
-            font-size: 13px;
+        .subtitle {
+            font-size: 14px;
             color: #64748b;
             margin-bottom: 30px;
         }
 
-        .input-wrapper {
+        .input-group {
             text-align: left;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
@@ -70,137 +109,140 @@
             font-size: 11px;
             font-weight: 700;
             color: #475569;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         input[type="tel"], input[type="text"] {
             width: 100%;
             padding: 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            font-size: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
             box-sizing: border-box;
-            background: #fff;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
         }
 
         input:focus {
             outline: none;
             border-color: var(--csa-blue);
-            box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.08);
+            background: #f0f7ff;
         }
 
         .message-area {
-            min-height: 20px;
-            margin-bottom: 15px;
+            min-height: 24px;
             font-size: 13px;
+            margin-bottom: 15px;
             font-weight: 500;
         }
-
         .error { color: var(--error); }
         .success { color: var(--success); }
         .name { color: var(--csa-blue); font-weight: bold; }
 
-        .otp-row {
+        .otp-grid {
             display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin: 15px 0 25px;
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
-        .otp-box {
-            width: 23%;
-            height: 55px;
+        .otp-input {
+            width: 100%;
+            height: 60px;
             text-align: center;
             font-size: 24px;
-            font-weight: 700;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            background: #f8fafc;
+            font-weight: 800;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: #fff;
             color: var(--csa-blue);
         }
 
         button {
             width: 100%;
-            padding: 14px;
-            background-color: var(--csa-blue);
+            padding: 16px;
+            background: var(--csa-blue);
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: transform 0.2s, background 0.2s;
         }
 
-        button:hover:not(:disabled) { background-color: #003a7a; }
-        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        button:hover:not(:disabled) { background: #003a7a; transform: translateY(-1px); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
 
         #resendBtn {
             background: none;
-            color: #64748b;
-            font-size: 11px;
-            margin-top: 12px;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 15px;
             text-transform: none;
-            letter-spacing: normal;
         }
 
         .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #f1f5f9;
-            font-size: 10px;
+            position: absolute;
+            bottom: 30px;
+            font-size: 11px;
             color: #94a3b8;
-            line-height: 1.5;
+            text-align: center;
+            width: 100%;
         }
 
         .hidden { display: none; }
-        
         .shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-5px); }
-            60% { transform: translateX(5px); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        @media (max-width: 850px) {
+            .brand-section { display: none; }
         }
     </style>
 </head>
 <body>
 
-<div class="login-card" id="card">
-    <input type="text" class="hp" id="honeypot" tabindex="-1" autocomplete="off">
-    
-    <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="CSA Logo">
-    
-    <h2>CSA Photo Portal</h2>
-    <p>Sign in to your student account</p>
-
-    <div class="input-wrapper" id="phoneWrapper">
-        <label>Mobile Number</label>
-        <input type="tel" id="phone" placeholder="Enter 10 digit number" maxlength="10" inputmode="numeric">
+    <div class="brand-section">
+        <img class="brand-logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="CSA Logo">
+        <h1>Chaitanya Shree Academy</h1>
+        <p>Empowering students through excellence in education. Welcome to the CSA digital photo and credentials portal.</p>
     </div>
 
-    <div id="message" class="message-area"></div>
+    <div class="login-section">
+        <input type="text" class="hp" id="honeypot" tabindex="-1" autocomplete="off">
+        
+        <div class="login-box" id="card">
+            <h2>Student Login</h2>
+            <p class="subtitle">Enter your details to access the portal</p>
 
-    <div id="otpSection" class="hidden">
-        <label>Verification Code</label>
-        <div class="otp-row">
-            <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
-            <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
-            <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
-            <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+            <div class="input-group">
+                <label>Mobile Number</label>
+                <input type="tel" id="phone" placeholder="98XXXXXXXX" maxlength="10" inputmode="numeric">
+            </div>
+
+            <div id="message" class="message-area"></div>
+
+            <div id="otpSection" class="hidden">
+                <label>Security Code</label>
+                <div class="otp-grid">
+                    <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+                    <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+                    <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+                    <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+                </div>
+                <button id="verifyBtn" onclick="verifyOTP()">Verify Access</button>
+                <button id="resendBtn" disabled onclick="resendOTP()">Resend in 60s</button>
+            </div>
         </div>
-        <button id="verifyBtn" onclick="verifyOTP()">Verify Identity</button>
-        <button id="resendBtn" disabled onclick="resendOTP()">Resend code in 60s</button>
-    </div>
 
-    <div class="footer">
-        &copy; 2026 Chaitanya Shree Academy <br>
-        Powered by Junk It Out Technologies
+        <div class="footer">
+            &copy; 2026 CSA Malur. Powered by Chaitanya Shree Academy.
+        </div>
     </div>
-</div>
 
 <script>
     let currentPhone = "";
@@ -209,25 +251,10 @@
     let debounceTimer;
 
     const phoneInput = document.getElementById("phone");
-    const otpBoxes = document.querySelectorAll(".otp-box");
+    const otpBoxes = document.querySelectorAll(".otp-input");
     const card = document.getElementById("card");
 
-    // 🔹 WebOTP API Implementation
-    if ('OTPCredential' in window) {
-        window.addEventListener('DOMContentLoaded', e => {
-            const ac = new AbortController();
-            navigator.credentials.get({
-                otp: { transport:['sms'] },
-                signal: ac.signal
-            }).then(otp => {
-                const code = otp.code;
-                code.split('').forEach((char, i) => { if(otpBoxes[i]) otpBoxes[i].value = char; });
-                verifyOTP();
-            }).catch(err => console.log(err));
-        });
-    }
-
-    // 🔹 Phone Input Logic
+    // 1. Phone Logic
     phoneInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         const val = phoneInput.value.replace(/\D/g, ''); 
@@ -253,15 +280,13 @@
 
             if (res.ok) {
                 let data = await res.json();
-                setMessage(`Welcome back, ${data.name}`, "name");
+                setMessage(`Welcome, ${data.name}`, "name");
                 if (!otpSent) sendOTP();
             } else {
                 setMessage("Mobile number not registered", "error");
                 triggerShake();
             }
-        } catch (e) {
-            setMessage("Unable to connect to portal", "error");
-        }
+        } catch (e) { setMessage("Portal connection error", "error"); }
     }
 
     async function sendOTP() {
@@ -271,7 +296,6 @@
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ phone: currentPhone })
         });
-
         if (res.ok) {
             document.getElementById("otpSection").classList.remove("hidden");
             otpBoxes[0].focus();
@@ -283,10 +307,9 @@
         clearInterval(resendInterval);
         let time = 60;
         const btn = document.getElementById("resendBtn");
-        btn.disabled = true;
         resendInterval = setInterval(() => {
             time--;
-            btn.innerText = `Resend available in ${time}s`;
+            btn.innerText = `Resend code in ${time}s`;
             if (time <= 0) {
                 clearInterval(resendInterval);
                 btn.disabled = false;
@@ -295,7 +318,7 @@
         }, 1000);
     }
 
-    // 🔹 OTP Navigation
+    // 2. OTP Navigation
     otpBoxes.forEach((input, i) => {
         input.addEventListener("input", () => {
             if (input.value && otpBoxes[i + 1]) otpBoxes[i + 1].focus();
@@ -313,7 +336,7 @@
         if(otp.length < 4) return;
 
         const btn = document.getElementById("verifyBtn");
-        btn.innerText = "Verifying...";
+        btn.innerText = "AUTHENTICATING...";
         btn.disabled = true;
 
         try {
@@ -323,22 +346,18 @@
                 body: JSON.stringify({ phone: currentPhone, otp })
             });
             let data = await res.json();
-
             if (data.success) {
-                setMessage("Verified ✓", "success");
+                setMessage("Access Granted ✓", "success");
                 setTimeout(() => { window.location.href = data.link; }, 800);
             } else {
-                setMessage("Invalid verification code", "error");
+                setMessage("Incorrect security code", "error");
                 triggerShake();
-                btn.innerText = "Verify Identity";
+                btn.innerText = "Verify Access";
                 btn.disabled = false;
                 otpBoxes.forEach(b => b.value = "");
                 otpBoxes[0].focus();
             }
-        } catch (e) {
-            btn.disabled = false;
-            btn.innerText = "Verify Identity";
-        }
+        } catch (e) { btn.disabled = false; }
     }
 
     function resendOTP() {
