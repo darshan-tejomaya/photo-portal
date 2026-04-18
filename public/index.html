@@ -3,170 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSI Photo Portal | Student Login</title>
+    <title>DSI Student Portal | Secure Login</title>
     <style>
         :root {
             --dsi-blue: #004a99;
-            --dsi-light-blue: #f0f7ff;
-            --dsi-border: #d1d5db;
-            --text-dark: #1f2937;
-            --error-red: #dc2626;
-            --success-green: #059669;
+            --dsi-bg: #f5f8fa;
+            --dsi-border: #e2e8f0;
+            --text-main: #334155;
+            --error: #ef4444;
+            --success: #10b981;
         }
 
         body {
             margin: 0;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background-color: #f3f4f6;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--dsi-bg);
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-dark);
         }
 
         .login-card {
             width: 380px;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            border-top: 6px solid var(--dsi-blue);
-            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--dsi-blue);
+            padding: 40px 30px;
             text-align: center;
             position: relative;
         }
 
-        /* Honeypot - Anti-Bot */
+        /* Anti-Bot Honeypot */
         .hp { position: absolute; left: -5000px; top: -5000px; }
 
         .logo {
-            width: 160px;
-            margin-bottom: 20px;
+            width: 200px;
+            margin-bottom: 25px;
         }
 
         h2 {
-            font-size: 1.4rem;
-            margin: 0 0 10px;
+            font-size: 18px;
             color: var(--dsi-blue);
-            font-weight: 700;
+            font-weight: 600;
+            margin: 0 0 5px;
+            text-transform: uppercase;
         }
 
         p {
-            font-size: 14px;
-            color: #6b7280;
+            font-size: 13px;
+            color: #64748b;
             margin-bottom: 30px;
         }
 
-        .input-group {
+        .input-wrapper {
             text-align: left;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
             font-size: 11px;
             font-weight: 700;
-            margin-bottom: 8px;
-            color: #4b5563;
+            color: #475569;
+            margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         input[type="tel"], input[type="text"] {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: 1px solid var(--dsi-border);
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 4px;
+            font-size: 14px;
             box-sizing: border-box;
-            transition: all 0.2s;
+            background: #fff;
+            transition: border-color 0.2s;
         }
 
         input:focus {
             outline: none;
             border-color: var(--dsi-blue);
-            box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.1);
         }
 
         .message-area {
-            min-height: 24px;
+            min-height: 20px;
             margin-bottom: 15px;
             font-size: 13px;
-            font-weight: 500;
         }
-        .error { color: var(--error-red); }
-        .success { color: var(--success-green); }
-        .name { color: var(--dsi-blue); font-weight: 700; }
 
-        .otp-container {
+        .error { color: var(--error); }
+        .success { color: var(--success); }
+        .name { color: var(--dsi-blue); font-weight: bold; }
+
+        .otp-row {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 8px;
+            margin: 15px 0 25px;
         }
 
         .otp-box {
-            width: 55px;
-            height: 60px;
+            width: 23%;
+            height: 50px;
             text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            border: 2px solid var(--dsi-border);
-            border-radius: 8px;
-            background: var(--dsi-light-blue);
-            color: var(--dsi-blue);
+            font-size: 22px;
+            font-weight: bold;
+            border: 1px solid var(--dsi-border);
+            border-radius: 4px;
+            background: #f8fafc;
         }
 
         button {
             width: 100%;
-            padding: 15px;
+            padding: 13px;
             background-color: var(--dsi-blue);
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 15px;
+            border-radius: 4px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            transition: background 0.2s;
         }
 
-        button:hover:not(:disabled) {
-            background-color: #003d7a;
-        }
-
-        button:active:not(:disabled) {
-            transform: scale(0.98);
-        }
-
-        button:disabled {
-            background-color: #9ca3af;
-            cursor: not-allowed;
-        }
+        button:hover { background-color: #003a7a; }
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
         #resendBtn {
             background: none;
-            color: #6b7280;
-            font-size: 12px;
-            padding: 5px;
+            color: #94a3b8;
+            font-size: 11px;
             margin-top: 10px;
+            font-weight: normal;
         }
 
-        .footer-note {
-            margin-top: 30px;
+        .footer {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
             font-size: 10px;
-            color: #9ca3af;
+            color: #94a3b8;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .hidden { display: none; }
         
-        /* Shake animation for errors */
-        .shake { animation: shake 0.4s ease-in-out; }
+        .shake { animation: shake 0.3s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
         }
     </style>
 </head>
@@ -175,31 +165,33 @@
 <div class="login-card" id="card">
     <input type="text" class="hp" id="honeypot" tabindex="-1" autocomplete="off">
     
-    <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="Portal Logo">
-    <h2>Student Portal</h2>
-    <p>Authentication Required</p>
+    <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="DSI Logo">
+    
+    <h2>Student Login</h2>
+    <p>Authentication Portal</p>
 
-    <div class="input-group">
-        <label>Registered Mobile Number</label>
-        <input type="tel" id="phone" placeholder="Enter 10 digit number" maxlength="10" inputmode="numeric" autocomplete="one-time-code">
+    <div class="input-wrapper">
+        <label>Mobile Number</label>
+        <input type="tel" id="phone" placeholder="Enter 10 digit number" maxlength="10" inputmode="numeric">
     </div>
 
     <div id="message" class="message-area"></div>
 
     <div id="otpSection" class="hidden">
-        <label>Verification Code</label>
-        <div class="otp-container">
-            <input class="otp-box" maxlength="1" type="text" inputmode="numeric" autocomplete="one-time-code">
+        <label>Enter 4-Digit Code</label>
+        <div class="otp-row">
+            <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
             <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
             <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
             <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
         </div>
-        <button id="verifyBtn" onclick="verifyOTP()">VERIFY & SIGN IN</button>
-        <button id="resendBtn" disabled onclick="resendOTP()">Resend available in 60s</button>
+        <button id="verifyBtn" onclick="verifyOTP()">VERIFY & LOGIN</button>
+        <button id="resendBtn" disabled onclick="resendOTP()">Resend in 60s</button>
     </div>
 
-    <div class="footer-note">
-        &copy; 2026 Secured Student Information System
+    <div class="footer">
+        &copy; 2026 Dayananda Sagar Institutions <br>
+        Secured Access Portal
     </div>
 </div>
 
@@ -213,7 +205,7 @@
     const otpBoxes = document.querySelectorAll(".otp-box");
     const card = document.getElementById("card");
 
-    // 1. WebOTP API Support
+    // WebOTP API Implementation
     if ('OTPCredential' in window) {
         window.addEventListener('DOMContentLoaded', e => {
             const ac = new AbortController();
@@ -228,7 +220,7 @@
         });
     }
 
-    // 2. Phone Input logic with Debounce
+    // Phone Input Logic
     phoneInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         const val = phoneInput.value.replace(/\D/g, ''); 
@@ -261,26 +253,22 @@
                 triggerShake();
             }
         } catch (e) {
-            setMessage("Connection error. Try again.", "error");
+            setMessage("Server unreachable", "error");
         }
     }
 
     async function sendOTP() {
         otpSent = true;
-        try {
-            let res = await fetch("/send-otp", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ phone: currentPhone })
-            });
+        let res = await fetch("/send-otp", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ phone: currentPhone })
+        });
 
-            if (res.ok) {
-                document.getElementById("otpSection").classList.remove("hidden");
-                otpBoxes[0].focus();
-                startTimer();
-            }
-        } catch (e) {
-            console.error("OTP send failed");
+        if (res.ok) {
+            document.getElementById("otpSection").classList.remove("hidden");
+            otpBoxes[0].focus();
+            startTimer();
         }
     }
 
@@ -288,10 +276,9 @@
         clearInterval(resendInterval);
         let time = 60;
         const btn = document.getElementById("resendBtn");
-        btn.disabled = true;
         resendInterval = setInterval(() => {
             time--;
-            btn.innerText = `Resend available in ${time}s`;
+            btn.innerText = `Resend code in ${time}s`;
             if (time <= 0) {
                 clearInterval(resendInterval);
                 btn.disabled = false;
@@ -300,26 +287,15 @@
         }, 1000);
     }
 
-    // 3. OTP Navigation & Auto-submit
+    // OTP Box Navigation
     otpBoxes.forEach((input, i) => {
         input.addEventListener("input", () => {
-            if (input.value && otpBoxes[i + 1]) {
-                otpBoxes[i + 1].focus();
-            }
+            if (input.value && otpBoxes[i + 1]) otpBoxes[i + 1].focus();
             const allFilled = Array.from(otpBoxes).every(box => box.value.length === 1);
             if (allFilled) verifyOTP();
         });
-
         input.addEventListener("keydown", (e) => {
-            if (e.key === "Backspace" && !input.value && otpBoxes[i - 1]) {
-                otpBoxes[i - 1].focus();
-            }
-        });
-
-        input.addEventListener("paste", (e) => {
-            const data = e.clipboardData.getData("text").slice(0, 4).split("");
-            data.forEach((char, idx) => { if (otpBoxes[idx]) otpBoxes[idx].value = char; });
-            verifyOTP();
+            if (e.key === "Backspace" && !input.value && otpBoxes[i - 1]) otpBoxes[i - 1].focus();
         });
     });
 
@@ -329,7 +305,6 @@
         if(otp.length < 4) return;
 
         const btn = document.getElementById("verifyBtn");
-        const originalText = btn.innerText;
         btn.innerText = "AUTHENTICATING...";
         btn.disabled = true;
 
@@ -339,23 +314,21 @@
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ phone: currentPhone, otp })
             });
-
             let data = await res.json();
 
             if (data.success) {
-                setMessage("Access Granted ✓", "success");
+                setMessage("Verified ✓", "success");
                 setTimeout(() => { window.location.href = data.link; }, 800);
             } else {
-                setMessage("Invalid code. Please check again.", "error");
+                setMessage("Invalid OTP code", "error");
                 triggerShake();
-                btn.innerText = originalText;
+                btn.innerText = "VERIFY & LOGIN";
                 btn.disabled = false;
                 otpBoxes.forEach(b => b.value = "");
                 otpBoxes[0].focus();
             }
         } catch (e) {
             btn.disabled = false;
-            btn.innerText = originalText;
         }
     }
 
@@ -372,7 +345,7 @@
 
     function triggerShake() {
         card.classList.add("shake");
-        setTimeout(() => card.classList.remove("shake"), 400);
+        setTimeout(() => card.classList.remove("shake"), 300);
     }
 </script>
 
