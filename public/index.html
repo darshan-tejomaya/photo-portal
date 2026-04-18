@@ -3,244 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSA Photo Portal | Premium Access</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<title>Student UMS Portal | Secure Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --primary: #818cf8;
-    --accent: #22d3ee;
-    --glass: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.12);
-    --text-main: #f8fafc;
+    --dsi-navy: #1a237e;
+    --dsi-gold: #ffd700;
+    --border-color: #e0e0e0;
+    --text-dark: #333;
+    --text-light: #757575;
   }
 
   body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #020617;
-    height: 100vh;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
     display: flex;
-    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+  }
+
+  /* Left Sidebar (Branding) */
+  .sidebar {
+    flex: 1;
+    background: linear-gradient(rgba(26, 35, 126, 0.9), rgba(26, 35, 126, 0.9)), 
+                url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=1000&q=80');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    overflow: hidden;
-    color: var(--text-main);
-  }
-
-  /* Animated Mesh Background */
-  .bg-glow {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1;
-    background: radial-gradient(circle at 20% 30%, #1e1b4b 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, #0f172a 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, #1e293b 0%, transparent 100%);
-    animation: pulseBg 10s infinite alternate;
-  }
-
-  @keyframes pulseBg {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
-  }
-
-  .card {
-    width: 380px;
-    background: var(--glass);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border-radius: 32px;
+    align-items: center;
+    color: white;
     padding: 40px;
     text-align: center;
-    border: 1px solid var(--border);
-    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
-  .card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 60px 120px -20px rgba(0, 0, 0, 0.6);
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
   }
 
-  .logo { 
-    width: 80px; 
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 15px rgba(129, 140, 248, 0.4));
+  .sidebar h1 { font-size: 2.5rem; margin-bottom: 10px; border-bottom: 3px solid var(--dsi-gold); padding-bottom: 10px; }
+  .sidebar p { font-size: 1.1rem; opacity: 0.9; }
+
+  /* Right Login Section */
+  .login-section {
+    width: 450px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    box-shadow: -10px 0 20px rgba(0,0,0,0.05);
   }
 
-  h2 { font-weight: 800; font-size: 1.8rem; margin: 0 0 10px; letter-spacing: -1px; }
-  .subtitle { font-weight: 300; font-size: 14px; color: #94a3b8; margin-bottom: 30px; }
+  @media (max-width: 768px) {
+    .login-section { width: 100%; padding: 40px; }
+  }
 
-  /* Premium Inputs */
-  input[type="tel"] {
+  .logo { width: 120px; margin-bottom: 30px; }
+  h2 { color: var(--dsi-navy); margin-bottom: 5px; font-weight: 700; }
+  .sub-txt { color: var(--text-light); margin-bottom: 30px; font-size: 0.9rem; }
+
+  /* UMS Style Form */
+  .form-group { margin-bottom: 20px; position: relative; }
+  label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--dsi-navy); margin-bottom: 8px; }
+  
+  input {
     width: 100%;
-    padding: 16px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    background: rgba(0, 0, 0, 0.2);
-    color: white;
-    font-size: 16px;
-    text-align: center;
-    letter-spacing: 1px;
-    transition: all 0.3s;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
   }
 
-  input[type="tel"]:focus {
+  input:focus {
     outline: none;
-    background: rgba(0, 0, 0, 0.4);
-    border-color: var(--primary);
-    box-shadow: 0 0 20px rgba(129, 140, 248, 0.2);
+    border-color: var(--dsi-navy);
   }
 
-  /* Recessed OTP Boxes */
-  .otp-container { display: flex; justify-content: space-between; gap: 12px; margin: 25px 0; }
-  .otp-box {
-    width: 60px; height: 75px;
-    font-size: 32px; font-weight: 800;
-    border-radius: 18px;
-    border: none;
-    background: #ffffff;
-    color: #0f172a;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-    transition: all 0.2s;
-  }
+  .otp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+  .otp-input { text-align: center; font-weight: bold; font-size: 1.2rem; }
 
-  .otp-box:focus {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px var(--accent);
-  }
-
-  /* Glow Button */
-  button {
-    width: 100%;
-    padding: 18px;
-    border-radius: 18px;
-    border: none;
-    background: linear-gradient(135deg, #6366f1, #06b6d4);
+  .btn-primary {
+    background-color: var(--dsi-navy);
     color: white;
-    font-size: 16px;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 4px;
     font-weight: 700;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s;
+    margin-top: 10px;
+    transition: background 0.3s;
   }
 
-  button:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+  .btn-primary:hover { background-color: #0d1440; }
+
+  .footer-links {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
   }
 
-  button::after {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%; width: 200%; height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-    transform: rotate(45deg);
-    transition: 0.5s;
-  }
+  .footer-links a { color: var(--dsi-navy); text-decoration: none; font-weight: 600; }
+  .footer-links a:hover { text-decoration: underline; }
 
-  button:hover::after { left: 100%; }
-
-  .shimmer {
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-  }
-
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-
-  .hidden { display: none; opacity: 0; }
-  .visible { display: block; animation: fadeInUp 0.6s forwards; }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .hidden { display: none; }
+  .fade-in { animation: fadeIn 0.5s ease-in; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 </head>
 <body>
 
-<div class="bg-glow"></div>
+  <div class="sidebar">
+    <h1>CSA UMS</h1>
+    <p>Unified Management System for Students</p>
+  </div>
 
-<div class="card" id="mainCard">
-  <div id="loginSection">
-    <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="CSA">
-    <h2>Student Portal</h2>
-    <p class="subtitle">Enter your mobile to unlock gallery</p>
+  <div class="login-section">
+    <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="CSA Logo">
+    
+    <div id="loginForm">
+      <h2>Student Login</h2>
+      <p class="sub-txt">Please enter your registered mobile number to continue.</p>
 
-    <input type="tel" id="phone" placeholder="99xx xxx 99" maxlength="10">
-
-    <div id="status" class="subtitle" style="margin: 15px 0; min-height: 20px;"></div>
-
-    <div id="otpSection" class="hidden">
-      <div class="otp-container">
-        <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
-        <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
-        <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
-        <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+      <div class="form-group">
+        <label for="phone">MOBILE NUMBER</label>
+        <input type="tel" id="phone" placeholder="Ex: 9876543210" maxlength="10">
       </div>
-      <button id="verifyBtn" onclick="verifyOTP()">Unlock Access</button>
-      <p id="timer" style="font-size: 12px; margin-top: 15px;">Resend code in <span id="secs">60</span>s</p>
+
+      <div id="otpArea" class="hidden fade-in">
+        <label>ENTER OTP SENT TO PHONE</label>
+        <div class="otp-grid">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+          <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+        </div>
+        <button class="btn-primary" style="margin-top: 25px;" onclick="verify()">VERIFY & SIGN IN</button>
+      </div>
+
+      <button id="nextBtn" class="btn-primary" onclick="showOTP()">NEXT</button>
+
+      <div class="footer-links">
+        <a href="#">Forgot Number?</a>
+        <a href="#">Contact Support</a>
+      </div>
     </div>
   </div>
-</div>
 
 <script>
-  const phoneInput = document.getElementById('phone');
-  const otpSection = document.getElementById('otpSection');
-  const otpBoxes = document.querySelectorAll('.otp-box');
-
-  phoneInput.addEventListener('input', (e) => {
-    let val = e.target.value.replace(/\D/g, '');
-    e.target.value = val;
-    
-    if (val.length === 10) {
-      document.getElementById('status').innerText = "Verifying student...";
-      document.getElementById('status').classList.add('shimmer');
-      
-      // Simulate API call
-      setTimeout(() => {
-        document.getElementById('status').innerText = "Welcome back, Student!";
-        document.getElementById('status').classList.remove('shimmer');
-        otpSection.classList.remove('hidden');
-        otpSection.classList.add('visible');
-        otpBoxes[0].focus();
-        startTimer();
-      }, 1200);
+  function showOTP() {
+    const phone = document.getElementById('phone').value;
+    if(phone.length === 10) {
+      document.getElementById('nextBtn').classList.add('hidden');
+      document.getElementById('otpArea').classList.remove('hidden');
+      document.querySelectorAll('.otp-input')[0].focus();
+    } else {
+      alert("Please enter a valid 10-digit number");
     }
-  });
-
-  otpBoxes.forEach((box, i) => {
-    box.addEventListener('input', () => {
-      if (box.value && otpBoxes[i+1]) otpBoxes[i+1].focus();
-    });
-    box.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && !box.value && otpBoxes[i-1]) otpBoxes[i-1].focus();
-    });
-  });
-
-  function startTimer() {
-    let s = 60;
-    const timer = setInterval(() => {
-      s--;
-      document.getElementById('secs').innerText = s;
-      if (s <= 0) clearInterval(timer);
-    }, 1000);
   }
 
-  function verifyOTP() {
-    const btn = document.getElementById('verifyBtn');
-    btn.innerText = "Authenticating...";
-    setTimeout(() => {
-      btn.innerHTML = "Success ✓";
-      btn.style.background = "linear-gradient(135deg, #10b981, #059669)";
-      setTimeout(() => window.location.href = '/gallery', 800);
-    }, 1500);
+  // Simple OTP auto-focus logic
+  const inputs = document.querySelectorAll('.otp-input');
+  inputs.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      if (input.value && inputs[i+1]) inputs[i+1].focus();
+    });
+  });
+
+  function verify() {
+    alert("Signing into UMS Portal...");
+    window.location.href = "/dashboard";
   }
 </script>
 
