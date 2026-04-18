@@ -3,184 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student UMS Portal | Secure Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<title>CSA Photo Portal | Secure Access</title>
 
 <style>
   :root {
-    --dsi-navy: #1a237e;
-    --dsi-gold: #ffd700;
-    --border-color: #e0e0e0;
-    --text-dark: #333;
-    --text-light: #757575;
+    --primary: #6366f1;
+    --accent: #38bdf8;
+    --error: #fb7185;
+    --success: #34d399;
+    --glass: rgba(255, 255, 255, 0.05);
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
   }
 
   body {
     margin: 0;
-    padding: 0;
-    font-family: 'Open Sans', sans-serif;
-    display: flex;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #020617;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
     height: 100vh;
-    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    overflow: hidden;
   }
 
-  /* Left Sidebar (Branding) */
-  .sidebar {
-    flex: 1;
-    background: linear-gradient(rgba(26, 35, 126, 0.9), rgba(26, 35, 126, 0.9)), 
-                url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=1000&q=80');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  .card {
+    width: 360px;
+    background: var(--glass);
+    backdrop-filter: blur(25px);
+    border-radius: 28px;
+    padding: 35px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .logo { width: 95px; margin-bottom: 15px; }
+  h2 { margin: 0 0 10px; font-weight: 600; }
+
+  input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 12px;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.2);
     color: white;
-    padding: 40px;
+    box-sizing: border-box;
     text-align: center;
   }
 
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
+  .message-area { min-height: 20px; margin-bottom: 15px; font-size: 14px; }
+  .name-display { color: var(--accent); }
+  .error { color: var(--error); }
+  .success { color: var(--success); }
+
+  .otp-container { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
+  .otp-box { width: 50px; height: 60px; font-size: 24px; font-weight: bold; border-radius: 10px; background: white; color: #020617; border: none; }
+
+  button {
+    width: 100%; padding: 14px; border-radius: 12px; border: none;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s;
   }
+  button:disabled { background: #475569; cursor: not-allowed; opacity: 0.6; }
 
-  .sidebar h1 { font-size: 2.5rem; margin-bottom: 10px; border-bottom: 3px solid var(--dsi-gold); padding-bottom: 10px; }
-  .sidebar p { font-size: 1.1rem; opacity: 0.9; }
-
-  /* Right Login Section */
-  .login-section {
-    width: 450px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 60px;
-    box-shadow: -10px 0 20px rgba(0,0,0,0.05);
-  }
-
-  @media (max-width: 768px) {
-    .login-section { width: 100%; padding: 40px; }
-  }
-
-  .logo { width: 120px; margin-bottom: 30px; }
-  h2 { color: var(--dsi-navy); margin-bottom: 5px; font-weight: 700; }
-  .sub-txt { color: var(--text-light); margin-bottom: 30px; font-size: 0.9rem; }
-
-  /* UMS Style Form */
-  .form-group { margin-bottom: 20px; position: relative; }
-  label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--dsi-navy); margin-bottom: 8px; }
-  
-  input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-  }
-
-  input:focus {
-    outline: none;
-    border-color: var(--dsi-navy);
-  }
-
-  .otp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-  .otp-input { text-align: center; font-weight: bold; font-size: 1.2rem; }
-
-  .btn-primary {
-    background-color: var(--dsi-navy);
-    color: white;
-    border: none;
-    padding: 14px;
-    width: 100%;
-    border-radius: 4px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
-  }
-
-  .btn-primary:hover { background-color: #0d1440; }
-
-  .footer-links {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-  }
-
-  .footer-links a { color: var(--dsi-navy); text-decoration: none; font-weight: 600; }
-  .footer-links a:hover { text-decoration: underline; }
+  #resendBtn { background: none; color: var(--text-muted); font-size: 12px; margin-top: 10px; }
 
   .hidden { display: none; }
-  .fade-in { animation: fadeIn 0.5s ease-in; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .fade-in { animation: fadeIn 0.5s forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 
-  <div class="sidebar">
-    <h1>CSA UMS</h1>
-    <p>Unified Management System for Students</p>
-  </div>
+<div class="card">
+  <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="Logo">
+  <h2>Student Portal</h2>
+  <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Secure Access via OTP</p>
 
-  <div class="login-section">
-    <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="CSA Logo">
-    
-    <div id="loginForm">
-      <h2>Student Login</h2>
-      <p class="sub-txt">Please enter your registered mobile number to continue.</p>
+  <input type="tel" id="phone" placeholder="Enter Mobile Number" maxlength="10" oninput="autoCheck()">
 
-      <div class="form-group">
-        <label for="phone">MOBILE NUMBER</label>
-        <input type="tel" id="phone" placeholder="Ex: 9876543210" maxlength="10">
-      </div>
+  <div id="message" class="message-area"></div>
 
-      <div id="otpArea" class="hidden fade-in">
-        <label>ENTER OTP SENT TO PHONE</label>
-        <div class="otp-grid">
-          <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-          <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
-        </div>
-        <button class="btn-primary" style="margin-top: 25px;" onclick="verify()">VERIFY & SIGN IN</button>
-      </div>
-
-      <button id="nextBtn" class="btn-primary" onclick="showOTP()">NEXT</button>
-
-      <div class="footer-links">
-        <a href="#">Forgot Number?</a>
-        <a href="#">Contact Support</a>
-      </div>
+  <div id="otpSection" class="hidden">
+    <div class="otp-container">
+      <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+      <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+      <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+      <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
     </div>
+    <button id="verifyBtn" onclick="verifyOTP()">Verify Access</button>
+    <button id="resendBtn" disabled onclick="resendOTP()">Resend OTP in 60s</button>
   </div>
+
+  <div style="margin-top:25px; font-size:10px; color:var(--text-muted);">SECURE ENCRYPTED SESSION</div>
+</div>
 
 <script>
-  function showOTP() {
-    const phone = document.getElementById('phone').value;
-    if(phone.length === 10) {
-      document.getElementById('nextBtn').classList.add('hidden');
-      document.getElementById('otpArea').classList.remove('hidden');
-      document.querySelectorAll('.otp-input')[0].focus();
-    } else {
-      alert("Please enter a valid 10-digit number");
-    }
-  }
+let currentPhone = "";
+let resendTimer = 60;
+let resendInterval;
+let otpSent = false;
+const MOCK_OTP = "1234"; // 🔹 This is the "correct" OTP for testing
 
-  // Simple OTP auto-focus logic
-  const inputs = document.querySelectorAll('.otp-input');
-  inputs.forEach((input, i) => {
-    input.addEventListener('input', () => {
-      if (input.value && inputs[i+1]) inputs[i+1].focus();
-    });
+// 🔹 1. SIMULATED BACKEND LOGIC
+const mockBackend = (url, data) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (url === "/get-student") {
+        // Simulates a database check
+        resolve({ name: "Alex Johnson", success: true });
+      } else if (url === "/send-otp") {
+        console.log("SMS Sent to " + data.phone + ": " + MOCK_OTP); // Check your browser console!
+        resolve({ success: true });
+      } else if (url === "/verify-otp") {
+        if (data.otp === MOCK_OTP) resolve({ success: true, link: "https://your-photo-gallery.com" });
+        else reject("Invalid code");
+      }
+    }, 800);
   });
+};
 
-  function verify() {
-    alert("Signing into UMS Portal...");
-    window.location.href = "/dashboard";
+// 🔹 2. AUTO-CHECK LOGIC
+async function autoCheck() {
+  let phone = document.getElementById("phone").value;
+  if (phone.length < 10) return;
+
+  currentPhone = phone;
+  setMessage("Identifying...", "name-display");
+
+  try {
+    let data = await mockBackend("/get-student", { phone });
+    let masked = phone.replace(/(\d{2})\d{6}(\d{2})/, "$1******$2");
+    setMessage("Welcome, " + data.name + " (" + masked + ")", "name-display");
+
+    if (!otpSent) {
+      sendOTP();
+      otpSent = true;
+    }
+  } catch (e) {
+    setMessage("Number not registered", "error");
   }
+}
+
+// 🔹 3. SEND OTP LOGIC
+async function sendOTP() {
+  await mockBackend("/send-otp", { phone: currentPhone });
+  document.getElementById("otpSection").classList.remove("hidden");
+  document.getElementById("otpSection").classList.add("fade-in");
+  document.querySelectorAll(".otp-box")[0].focus();
+  startTimer();
+}
+
+// 🔹 4. VERIFY LOGIC
+async function verifyOTP() {
+  let otp = "";
+  document.querySelectorAll(".otp-box").forEach(i => otp += i.value);
+  
+  const btn = document.getElementById("verifyBtn");
+  btn.innerText = "Authenticating...";
+
+  try {
+    let data = await mockBackend("/verify-otp", { phone: currentPhone, otp });
+    setMessage("Access Granted ✓", "success");
+    setTimeout(() => {
+      alert("Verification successful! Opening gallery...");
+      window.location.href = data.link;
+    }, 1000);
+  } catch (e) {
+    setMessage("Invalid OTP (Try 1234)", "error");
+    btn.innerText = "Verify Access";
+  }
+}
+
+// 🔹 UI HELPER FUNCTIONS
+function setMessage(msg, type="") {
+  let el = document.getElementById("message");
+  el.innerText = msg;
+  el.className = "message-area " + type;
+}
+
+function startTimer() {
+  resendTimer = 60;
+  const btn = document.getElementById("resendBtn");
+  resendInterval = setInterval(() => {
+    resendTimer--;
+    btn.innerText = "Resend OTP in " + resendTimer + "s";
+    if (resendTimer <= 0) {
+      clearInterval(resendInterval);
+      btn.disabled = false;
+      btn.innerText = "Resend OTP";
+    }
+  }, 1000);
+}
+
+// 🔹 OTP INPUT UX
+document.querySelectorAll(".otp-box").forEach((input, i, arr) => {
+  input.addEventListener("input", () => {
+    if (input.value && arr[i+1]) arr[i+1].focus();
+  });
+  input.addEventListener("keydown", e => {
+    if (e.key === "Backspace" && !input.value && arr[i-1]) arr[i-1].focus();
+  });
+});
 </script>
 
 </body>
