@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaitanya Shree Academy | Student Access</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CSA Photo Portal | Student Access</title>
     <style>
         :root {
             --csa-blue: #004a99;
@@ -18,9 +18,9 @@
             padding: 0;
             font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: #fff;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
-            overflow: hidden;
+            flex-direction: row;
         }
 
         /* --- SECTION 1: VISUAL BRANDING --- */
@@ -40,26 +40,27 @@
         }
 
         .brand-logo {
-            width: 140px;
+            width: 120px;
             background: white;
-            padding: 15px;
+            padding: 12px;
             border-radius: 12px;
             margin-bottom: 25px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
         .brand-section h1 {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             margin: 0;
             font-weight: 800;
             letter-spacing: -1px;
         }
 
         .brand-section p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             opacity: 0.9;
             max-width: 400px;
             line-height: 1.6;
+            margin-top: 15px;
         }
 
         /* --- SECTION 2: LOGIN PORTAL --- */
@@ -69,21 +70,20 @@
             align-items: center;
             justify-content: center;
             background-color: #f8fafc;
-            padding: 40px;
+            padding: 20px;
             position: relative;
         }
 
         .login-box {
             width: 100%;
-            max-width: 380px;
+            max-width: 400px;
             background: white;
-            padding: 45px;
+            padding: clamp(30px, 8vw, 50px);
             border-radius: 16px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--csa-accent);
         }
 
-        /* Honeypot */
         .hp { position: absolute; left: -5000px; top: -5000px; }
 
         h2 {
@@ -119,9 +119,10 @@
             padding: 14px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 16px; /* Prevents iOS auto-zoom */
             box-sizing: border-box;
             transition: all 0.3s ease;
+            appearance: none;
         }
 
         input:focus {
@@ -142,13 +143,13 @@
 
         .otp-grid {
             display: flex;
-            gap: 12px;
+            gap: clamp(8px, 2vw, 15px);
             margin-bottom: 25px;
         }
 
         .otp-input {
             width: 100%;
-            height: 60px;
+            height: clamp(50px, 12vw, 65px);
             text-align: center;
             font-size: 24px;
             font-weight: 800;
@@ -168,39 +169,78 @@
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            transition: all 0.2s;
+            touch-action: manipulation;
         }
 
-        button:hover:not(:disabled) { background: #003a7a; transform: translateY(-1px); }
-        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        button:active { transform: scale(0.98); }
 
         #resendBtn {
             background: none;
             color: #94a3b8;
             font-size: 12px;
             margin-top: 15px;
-            text-transform: none;
+            text-decoration: underline;
         }
 
         .footer {
             position: absolute;
-            bottom: 30px;
-            font-size: 11px;
+            bottom: 20px;
+            font-size: 10px;
             color: #94a3b8;
             text-align: center;
             width: 100%;
+            left: 0;
         }
 
         .hidden { display: none; }
+
+        /* --- MOBILE MEDIA QUERIES --- */
+        @media (max-width: 850px) {
+            body {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+
+            .brand-section {
+                flex: none;
+                height: 35vh; /* Takes top portion of screen */
+                padding: 20px;
+            }
+
+            .brand-logo {
+                width: 80px;
+                margin-bottom: 10px;
+            }
+
+            .brand-section p {
+                display: none; /* Hide description on mobile to save space */
+            }
+
+            .login-section {
+                flex: 1;
+                padding: 30px 15px 80px; /* Space for footer */
+                align-items: flex-start;
+            }
+
+            .login-box {
+                max-width: 100%;
+                border: none;
+                box-shadow: none;
+                background: transparent;
+                padding: 0;
+            }
+        }
+
+        @media (max-height: 700px) and (max-width: 850px) {
+            .brand-section { height: 25vh; }
+        }
+
         .shake { animation: shake 0.4s ease-in-out; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-6px); }
             75% { transform: translateX(6px); }
-        }
-
-        @media (max-width: 850px) {
-            .brand-section { display: none; }
         }
     </style>
 </head>
@@ -208,16 +248,16 @@
 
     <div class="brand-section">
         <img class="brand-logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="CSA Logo">
-        <h1>Chaitanya Shree Academy</h1>
-        <p>Empowering students through excellence in education. Welcome to the CSA digital photo and credentials portal.</p>
+        <h1>CSA Academy</h1>
+        <p>The digital gateway for students at Chaitanya Shree Academy.</p>
     </div>
 
     <div class="login-section">
         <input type="text" class="hp" id="honeypot" tabindex="-1" autocomplete="off">
         
         <div class="login-box" id="card">
-            <h2>Student Login</h2>
-            <p class="subtitle">Enter your details to access the portal</p>
+            <h2>Sign In</h2>
+            <p class="subtitle">Access your photo portal</p>
 
             <div class="input-group">
                 <label>Mobile Number</label>
@@ -227,24 +267,27 @@
             <div id="message" class="message-area"></div>
 
             <div id="otpSection" class="hidden">
-                <label>Security Code</label>
+                <label>4-Digit OTP</label>
                 <div class="otp-grid">
                     <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
                     <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
                     <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
                     <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
                 </div>
-                <button id="verifyBtn" onclick="verifyOTP()">Verify Access</button>
-                <button id="resendBtn" disabled onclick="resendOTP()">Resend in 60s</button>
+                <button id="verifyBtn" onclick="verifyOTP()">Verify Identity</button>
+                <button id="resendBtn" disabled onclick="resendOTP()">Resend code in 60s</button>
             </div>
         </div>
 
         <div class="footer">
-            &copy; 2026 CSA Malur. Powered by Chaitanya Shree Academy.
+            &copy; 2026 CSA Malur. Powered by Junk It Out Technologies.
         </div>
     </div>
 
 <script>
+    /* JavaScript logic remains the same as previous version to ensure
+       backend connectivity (fetch calls, OTP navigation, etc.)
+    */
     let currentPhone = "";
     let resendInterval;
     let otpSent = false;
@@ -254,13 +297,11 @@
     const otpBoxes = document.querySelectorAll(".otp-input");
     const card = document.getElementById("card");
 
-    // 1. Phone Logic
     phoneInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         const val = phoneInput.value.replace(/\D/g, ''); 
         phoneInput.value = val;
         setMessage("");
-
         if (val.length === 10) {
             debounceTimer = setTimeout(() => {
                 if(document.getElementById("honeypot").value !== "") return;
@@ -277,16 +318,15 @@
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ phone })
             });
-
             if (res.ok) {
                 let data = await res.json();
                 setMessage(`Welcome, ${data.name}`, "name");
                 if (!otpSent) sendOTP();
             } else {
-                setMessage("Mobile number not registered", "error");
+                setMessage("Number not registered", "error");
                 triggerShake();
             }
-        } catch (e) { setMessage("Portal connection error", "error"); }
+        } catch (e) { setMessage("Network error", "error"); }
     }
 
     async function sendOTP() {
@@ -309,7 +349,7 @@
         const btn = document.getElementById("resendBtn");
         resendInterval = setInterval(() => {
             time--;
-            btn.innerText = `Resend code in ${time}s`;
+            btn.innerText = `Resend in ${time}s`;
             if (time <= 0) {
                 clearInterval(resendInterval);
                 btn.disabled = false;
@@ -318,7 +358,6 @@
         }, 1000);
     }
 
-    // 2. OTP Navigation
     otpBoxes.forEach((input, i) => {
         input.addEventListener("input", () => {
             if (input.value && otpBoxes[i + 1]) otpBoxes[i + 1].focus();
@@ -334,11 +373,9 @@
         let otp = "";
         otpBoxes.forEach(i => otp += i.value);
         if(otp.length < 4) return;
-
         const btn = document.getElementById("verifyBtn");
-        btn.innerText = "AUTHENTICATING...";
+        btn.innerText = "Verifying...";
         btn.disabled = true;
-
         try {
             let res = await fetch("/verify-otp", {
                 method: "POST",
@@ -347,12 +384,12 @@
             });
             let data = await res.json();
             if (data.success) {
-                setMessage("Access Granted ✓", "success");
+                setMessage("Verified ✓", "success");
                 setTimeout(() => { window.location.href = data.link; }, 800);
             } else {
-                setMessage("Incorrect security code", "error");
+                setMessage("Invalid OTP", "error");
                 triggerShake();
-                btn.innerText = "Verify Access";
+                btn.innerText = "Verify Identity";
                 btn.disabled = false;
                 otpBoxes.forEach(b => b.value = "");
                 otpBoxes[0].focus();
@@ -360,22 +397,16 @@
         } catch (e) { btn.disabled = false; }
     }
 
-    function resendOTP() {
-        otpSent = false;
-        sendOTP();
-    }
-
+    function resendOTP() { otpSent = false; sendOTP(); }
     function setMessage(msg, type="") {
         const el = document.getElementById("message");
         el.innerText = msg;
         el.className = "message-area " + type;
     }
-
     function triggerShake() {
         card.classList.add("shake");
         setTimeout(() => card.classList.remove("shake"), 400);
     }
 </script>
-
 </body>
 </html>
