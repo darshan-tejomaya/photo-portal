@@ -3,249 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSA Photo Portal | Secure Access</title>
+<title>CSA Student Portal | Secure Access</title>
 
 <style>
   :root {
+    /* Fluid colors based on system theme */
+    --bg-color: #020617;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
     --primary: #6366f1;
     --accent: #38bdf8;
     --error: #fb7185;
     --success: #34d399;
-    --glass: rgba(255, 255, 255, 0.05);
-    --text-main: #ffffff;
-    --text-muted: #94a3b8;
   }
 
-  /* Accessibility: Support for System Light Mode */
+  /* Light Mode Overrides */
   @media (prefers-color-scheme: light) {
     :root {
-      --glass: rgba(15, 23, 42, 0.05);
+      --bg-color: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.8);
       --text-main: #0f172a;
       --text-muted: #64748b;
+      --primary: #4f46e5;
     }
   }
 
   body {
     margin: 0;
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    background: #020617;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-color);
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-main);
-    overflow: hidden;
+    transition: background 0.3s ease;
   }
 
   .card {
-    width: 360px;
-    background: var(--glass);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-radius: 28px;
-    padding: 35px;
-    text-align: center;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 10;
-  }
-
-  /* Accessibility: High Contrast Focus States */
-  input:focus-visible, button:focus-visible {
-    outline: 3px solid var(--accent);
-    outline-offset: 2px;
-  }
-
-  .logo { width: 95px; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.4)); }
-  h2 { margin: 0 0 8px; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.025em; }
-  p { font-size: 13px; color: var(--text-muted); margin-bottom: 25px; }
-
-  /* Honeypot - Anti-Bot */
-  .hp { position: absolute; left: -5000px; top: -5000px; }
-
-  input[type="tel"], input[type="text"] {
     width: 100%;
-    padding: 14px 16px;
-    border-radius: 14px;
+    max-width: 380px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 12px;
-    font-size: 16px;
-    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .logo { width: 80px; margin-bottom: 20px; }
+  h1 { font-size: 1.5rem; margin-bottom: 8px; }
+  p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
+
+  /* Accessible Inputs */
+  .input-group { text-align: left; margin-bottom: 15px; }
+  label { display: block; font-size: 0.8rem; margin-bottom: 5px; color: var(--text-muted); font-weight: 500; }
+
+  input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.05);
     color: var(--text-main);
+    font-size: 1rem;
     box-sizing: border-box;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    transition: all 0.2s;
   }
 
-  .message-area { min-height: 20px; margin-bottom: 15px; font-size: 13px; border-radius: 8px; }
-  .name { color: var(--accent); }
-  .error { color: var(--error); }
-  .success { color: var(--success); }
+  input:focus { border-color: var(--primary); ring: 4px var(--primary); }
 
-  .otp-container { display: flex; justify-content: space-between; gap: 8px; margin: 15px 0 25px; }
-  .otp-box {
-    width: 58px; height: 65px;
-    text-align: center; font-size: 28px; font-weight: 800;
-    border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.9); color: #020617;
-  }
+  /* OTP Boxes */
+  .otp-container { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+  .otp-box { width: 50px; height: 60px; text-align: center; font-size: 1.5rem; font-weight: bold; }
 
   button {
-    width: 100%; padding: 15px; border-radius: 14px; border: none;
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
-    color: white; font-size: 16px; font-weight: 600; cursor: pointer;
-    transition: 0.3s;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
   }
-  
-  button:disabled { background: #334155; cursor: not-allowed; opacity: 0.5; }
 
-  #resendBtn { background: none; color: var(--text-muted); font-size: 12px; margin-top: 10px; }
+  button:hover { opacity: 0.9; }
+  button:active { transform: scale(0.98); }
+  button:disabled { background: #64748b; cursor: not-allowed; }
 
-  /* Animation Classes */
   .hidden { display: none; }
-  .fade-in { animation: fadeIn 0.5s forwards; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   
-  .shake { animation: shake 0.4s ease; }
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-  }
+  /* Success View */
+  #successView { animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 </head>
 <body>
 
-<div class="card" id="card">
-  <div id="authView">
-    <input type="text" class="hp" id="honeypot" tabindex="-1" autocomplete="off">
-    <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="CSA Logo">
-    <h2>Portal Login</h2>
-    <p>Verify your student credentials</p>
+  <div class="card" id="authCard">
+    <div id="loginView">
+      <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="CSA Logo">
+      <h1>Student Portal</h1>
+      <p>Enter your phone to access photos</p>
 
-    <input type="tel" id="phone" placeholder="Enter Mobile Number" maxlength="10" aria-label="Mobile Number" inputmode="numeric">
-
-    <div id="message" class="message-area"></div>
-
-    <div id="otpSection" class="hidden">
-      <div class="otp-container">
-        <input class="otp-box" maxlength="1" type="text" inputmode="numeric" aria-label="Digit 1">
-        <input class="otp-box" maxlength="1" type="text" inputmode="numeric" aria-label="Digit 2">
-        <input class="otp-box" maxlength="1" type="text" inputmode="numeric" aria-label="Digit 3">
-        <input class="otp-box" maxlength="1" type="text" inputmode="numeric" aria-label="Digit 4">
+      <div class="input-group">
+        <label for="phone">Mobile Number</label>
+        <input type="tel" id="phone" autocomplete="tel" aria-label="Mobile Number" placeholder="10-digit number">
       </div>
-      <button id="verifyBtn" onclick="verifyOTP()">Verify Identity</button>
-      <button id="resendBtn" disabled onclick="resendOTP()">Resend code in 60s</button>
+      
+      <div id="msg" style="font-size: 13px; margin-bottom: 10px;"></div>
+
+      <div id="otpWrapper" class="hidden">
+        <label>Verification Code</label>
+        <div class="otp-container">
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" aria-label="OTP Digit 1">
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" aria-label="OTP Digit 2">
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" aria-label="OTP Digit 3">
+          <input class="otp-box" maxlength="1" type="text" inputmode="numeric" aria-label="OTP Digit 4">
+        </div>
+        <button id="verifyBtn" onclick="handleVerify()">Verify & Continue</button>
+      </div>
+    </div>
+
+    <div id="successView" class="hidden">
+      <h2 id="welcomeUser">Welcome back!</h2>
+      <p>You are securely logged in.</p>
+      <button onclick="window.location.href='/gallery'" style="margin-bottom: 10px;">View My Photos</button>
+      <button onclick="handleLogout()" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);">Logout</button>
     </div>
   </div>
 
-  <div id="dashboardView" class="hidden fade-in">
-    <h2 id="welcomeName">Welcome!</h2>
-    <p>Your session is active for 24 hours.</p>
-    <button onclick="window.location.href='/gallery'" style="margin-bottom: 12px;">Go to My Photos</button>
-    <button onclick="logout()" style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted);">Logout</button>
-  </div>
-
-  <div class="footer" style="margin-top:25px; font-size:10px; letter-spacing:2px; color:var(--text-muted);">SECURE SESSION</div>
-</div>
-
 <script>
-const SESSION_KEY = "csa_user_session";
-const card = document.getElementById("card");
-const otpBoxes = document.querySelectorAll(".otp-box");
+  // --- SESSION MANAGEMENT ---
+  const SESSION_KEY = "csa_user_session";
 
-// 🔹 1. SESSION MANAGEMENT: Check on Load
-window.onload = () => {
-  const session = JSON.parse(localStorage.getItem(SESSION_KEY));
-  if (session && Date.now() < session.expiry) {
-    showDashboard(session.name);
-  }
-};
-
-function saveSession(name) {
-  const sessionData = {
-    name: name,
-    expiry: Date.now() + (24 * 60 * 60 * 1000) // 24 Hours
+  window.onload = () => {
+    const session = JSON.parse(localStorage.getItem(SESSION_KEY));
+    if (session && session.expiry > Date.now()) {
+      showSuccess(session.name);
+    }
   };
-  localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
-}
 
-function logout() {
-  localStorage.removeItem(SESSION_KEY);
-  location.reload();
-}
+  function createSession(name) {
+    const sessionData = {
+      name: name,
+      expiry: Date.now() + (24 * 60 * 60 * 1000) // 24 Hours
+    };
+    localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+  }
 
-// 🔹 2. UI LOGIC: Phone Input
-document.getElementById("phone").addEventListener('input', (e) => {
-  const val = e.target.value.replace(/\D/g, '');
-  e.target.value = val;
-  if (val.length === 10) autoCheck(val);
-});
+  function handleLogout() {
+    localStorage.removeItem(SESSION_KEY);
+    location.reload();
+  }
 
-async function autoCheck(phone) {
-  setMessage("Identifying...", "name");
-  // Replace with actual fetch("/get-student")
-  setTimeout(() => {
-    document.getElementById("otpSection").classList.remove("hidden");
-    document.getElementById("otpSection").classList.add("fade-in");
-    otpBoxes[0].focus();
-    startResendTimer();
-  }, 800);
-}
+  // --- UI LOGIC ---
+  const phoneInput = document.getElementById('phone');
+  const otpWrapper = document.getElementById('otpWrapper');
+  const otpBoxes = document.querySelectorAll('.otp-box');
 
-// 🔹 3. ACCESSIBILITY: OTP Navigation
-otpBoxes.forEach((box, i) => {
-  box.addEventListener("input", () => {
-    if (box.value && otpBoxes[i + 1]) otpBoxes[i + 1].focus();
-    const allFilled = Array.from(otpBoxes).every(b => b.value.length === 1);
-    if (allFilled) verifyOTP();
+  phoneInput.addEventListener('input', (e) => {
+    if (e.target.value.length === 10) {
+      // Mock API call
+      document.getElementById('msg').innerHTML = "Check your SMS for a code";
+      otpWrapper.classList.remove('hidden');
+      otpBoxes[0].focus();
+    }
   });
-  box.addEventListener("keydown", (e) => {
-    if (e.key === "Backspace" && !box.value && otpBoxes[i - 1]) otpBoxes[i - 1].focus();
+
+  // OTP Box Navigation (Global Standard UX)
+  otpBoxes.forEach((box, i) => {
+    box.addEventListener('input', () => {
+      if (box.value && otpBoxes[i+1]) otpBoxes[i+1].focus();
+      if (Array.from(otpBoxes).every(b => b.value)) handleVerify();
+    });
+    box.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !box.value && otpBoxes[i-1]) otpBoxes[i-1].focus();
+    });
   });
-});
 
-async function verifyOTP() {
-  const otp = Array.from(otpBoxes).map(b => b.value).join('');
-  if (otp.length < 4) return;
+  async function handleVerify() {
+    const code = Array.from(otpBoxes).map(b => b.value).join('');
+    if (code.length < 4) return;
 
-  const btn = document.getElementById("verifyBtn");
-  btn.innerText = "Authenticating...";
-  btn.disabled = true;
+    // Simulate API verification
+    const verifyBtn = document.getElementById('verifyBtn');
+    verifyBtn.disabled = true;
+    verifyBtn.innerText = "Authenticating...";
 
-  // Mock Verification (Replace with fetch("/verify-otp"))
-  setTimeout(() => {
-    const studentName = "Student"; 
-    saveSession(studentName);
-    showDashboard(studentName);
-  }, 1000);
-}
+    setTimeout(() => {
+      createSession("Student"); // In reality, use name from your database
+      showSuccess("Student");
+    }, 1000);
+  }
 
-function showDashboard(name) {
-  document.getElementById("authView").classList.add("hidden");
-  document.getElementById("dashboardView").classList.remove("hidden");
-  document.getElementById("welcomeName").innerText = `Welcome, ${name}!`;
-}
-
-function setMessage(msg, type="") {
-  const el = document.getElementById("message");
-  el.innerText = msg;
-  el.className = "message-area " + type;
-}
-
-function startResendTimer() {
-  let time = 60;
-  const btn = document.getElementById("resendBtn");
-  const itv = setInterval(() => {
-    time--;
-    btn.innerText = `Resend available in ${time}s`;
-    if (time <= 0) { clearInterval(itv); btn.disabled = false; btn.innerText = "Resend OTP"; }
-  }, 1000);
-}
+  function showSuccess(name) {
+    document.getElementById('loginView').classList.add('hidden');
+    document.getElementById('successView').classList.remove('hidden');
+    document.getElementById('welcomeUser').innerText = `Welcome, ${name}!`;
+  }
 </script>
-
 </body>
 </html>
