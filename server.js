@@ -94,7 +94,7 @@ app.post("/send-otp", async (req, res) => {
         authorization: FAST2SMS_API_KEY,
         route: "dlt",
         sender_id: "CSAMLR",
-        message: "207801",
+        message: "204699",
         variables_values: otp,
         numbers: phone
       }
