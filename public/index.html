@@ -1,311 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSA Photo Portal | Secure Access</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSI Photo Portal | Student Login</title>
+    <style>
+        :root {
+            --dsi-blue: #004a99;
+            --dsi-light-blue: #f0f7ff;
+            --dsi-border: #d1d5db;
+            --text-dark: #1f2937;
+            --error-red: #dc2626;
+            --success-green: #059669;
+        }
 
-<style>
-  :root {
-    --primary: #6366f1;
-    --accent: #38bdf8;
-    --error: #fb7185;
-    --success: #34d399;
-    --glass: rgba(255, 255, 255, 0.05);
-  }
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: #f3f4f6;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+        }
 
-  body {
-    margin: 0;
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    background: #020617;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    overflow: hidden;
-  }
+        .login-card {
+            width: 380px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-top: 6px solid var(--dsi-blue);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
 
-  .card {
-    width: 360px;
-    background: var(--glass);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-radius: 28px;
-    padding: 35px;
-    text-align: center;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 10;
-  }
+        /* Honeypot - Anti-Bot */
+        .hp { position: absolute; left: -5000px; top: -5000px; }
 
-  /* Success/Error Animations */
-  .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
-  @keyframes shake {
-    10%, 90% { transform: translate3d(-1px, 0, 0); }
-    20%, 80% { transform: translate3d(2px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-    40%, 60% { transform: translate3d(4px, 0, 0); }
-  }
+        .logo {
+            width: 160px;
+            margin-bottom: 20px;
+        }
 
-  .logo { width: 95px; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.4)); }
-  h2 { margin: 0 0 8px; font-weight: 700; font-size: 1.6rem; letter-spacing: -0.025em; }
-  p { font-size: 13px; color: #94a3b8; margin-bottom: 25px; }
+        h2 {
+            font-size: 1.4rem;
+            margin: 0 0 10px;
+            color: var(--dsi-blue);
+            font-weight: 700;
+        }
 
-  /* Honeypot - Anti-Bot */
-  .hp { position: absolute; left: -5000px; top: -5000px; }
+        p {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
 
-  input[type="tel"], input[type="text"] {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 12px;
-    font-size: 16px;
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-    box-sizing: border-box;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  input:focus { border-color: var(--accent); background: rgba(0, 0, 0, 0.5); outline: none; }
+        .input-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
 
-  .message-area { min-height: 20px; margin-bottom: 15px; font-size: 13px; border-radius: 8px; }
-  .name { color: var(--accent); }
-  .error { color: var(--error); }
-  .success { color: var(--success); }
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #4b5563;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-  .otp-container { display: flex; justify-content: space-between; gap: 8px; margin: 15px 0 25px; }
-  .otp-box {
-    width: 58px;
-    height: 65px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: 800;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.9);
-    color: #020617;
-  }
+        input[type="tel"], input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--dsi-border);
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
 
-  button {
-    width: 100%;
-    padding: 15px;
-    border-radius: 14px;
-    border: none;
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
-  }
-  button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.4); }
-  button:disabled { background: #334155; cursor: not-allowed; box-shadow: none; opacity: 0.5; }
+        input:focus {
+            outline: none;
+            border-color: var(--dsi-blue);
+            box-shadow: 0 0 0 3px rgba(0, 74, 153, 0.1);
+        }
 
-  #resendBtn { background: none; box-shadow: none; color: #64748b; font-size: 12px; margin-top: 10px; border: 1px solid transparent; }
-  #resendBtn:not(:disabled):hover { color: var(--accent); }
+        .message-area {
+            min-height: 24px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .error { color: var(--error-red); }
+        .success { color: var(--success-green); }
+        .name { color: var(--dsi-blue); font-weight: 700; }
 
-  .footer { margin-top: 25px; font-size: 10px; text-transform: uppercase; color: #475569; letter-spacing: 2px; }
-  
-  .hidden { display: none; opacity: 0; }
-  .fade-in { animation: fadeIn 0.5s forwards; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-</style>
+        .otp-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .otp-box {
+            width: 55px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            border: 2px solid var(--dsi-border);
+            border-radius: 8px;
+            background: var(--dsi-light-blue);
+            color: var(--dsi-blue);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--dsi-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #003d7a;
+        }
+
+        button:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        #resendBtn {
+            background: none;
+            color: #6b7280;
+            font-size: 12px;
+            padding: 5px;
+            margin-top: 10px;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 10px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hidden { display: none; }
+        
+        /* Shake animation for errors */
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
 </head>
 <body>
 
-<div class="card" id="card">
-  <input type="text" class="hp" id="honeypot" tabindex="-1" autocomplete="off">
-  <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png">
-  <h2>Portal Login</h2>
-  <p>Verify your student credentials</p>
+<div class="login-card" id="card">
+    <input type="text" class="hp" id="honeypot" tabindex="-1" autocomplete="off">
+    
+    <img class="logo" src="https://static.wixstatic.com/media/267f11_77128206e0c0489eb10785a4157d7504~mv2.png" alt="Portal Logo">
+    <h2>Student Portal</h2>
+    <p>Authentication Required</p>
 
-  <input type="tel" id="phone" placeholder="Enter Mobile Number" maxlength="10" inputmode="numeric" autocomplete="one-time-code">
-
-  <div id="message" class="message-area"></div>
-
-  <div id="otpSection" class="hidden">
-    <div class="otp-container">
-      <input class="otp-box" maxlength="1" type="text" inputmode="numeric" autocomplete="one-time-code">
-      <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
-      <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
-      <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+    <div class="input-group">
+        <label>Registered Mobile Number</label>
+        <input type="tel" id="phone" placeholder="Enter 10 digit number" maxlength="10" inputmode="numeric" autocomplete="one-time-code">
     </div>
-    <button id="verifyBtn" onclick="verifyOTP()">Verify Identity</button>
-    <button id="resendBtn" disabled onclick="resendOTP()">Resend code in 60s</button>
-  </div>
 
-  <div class="footer">Encrypted Session</div>
+    <div id="message" class="message-area"></div>
+
+    <div id="otpSection" class="hidden">
+        <label>Verification Code</label>
+        <div class="otp-container">
+            <input class="otp-box" maxlength="1" type="text" inputmode="numeric" autocomplete="one-time-code">
+            <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+            <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+            <input class="otp-box" maxlength="1" type="text" inputmode="numeric">
+        </div>
+        <button id="verifyBtn" onclick="verifyOTP()">VERIFY & SIGN IN</button>
+        <button id="resendBtn" disabled onclick="resendOTP()">Resend available in 60s</button>
+    </div>
+
+    <div class="footer-note">
+        &copy; 2026 Secured Student Information System
+    </div>
 </div>
 
 <script>
-let currentPhone = "";
-let resendInterval;
-let otpSent = false;
-let debounceTimer;
+    let currentPhone = "";
+    let resendInterval;
+    let otpSent = false;
+    let debounceTimer;
 
-const phoneInput = document.getElementById("phone");
-const otpBoxes = document.querySelectorAll(".otp-box");
-const card = document.getElementById("card");
+    const phoneInput = document.getElementById("phone");
+    const otpBoxes = document.querySelectorAll(".otp-box");
+    const card = document.getElementById("card");
 
-// 🔹 WebOTP API Implementation (Chrome/Mobile)
-if ('OTPCredential' in window) {
-  window.addEventListener('DOMContentLoaded', e => {
-    const ac = new AbortController();
-    navigator.credentials.get({
-      otp: { transport:['sms'] },
-      signal: ac.signal
-    }).then(otp => {
-      const code = otp.code;
-      code.split('').forEach((char, i) => otpBoxes[i].value = char);
-      verifyOTP();
-    }).catch(err => console.log(err));
-  });
-}
+    // 1. WebOTP API Support
+    if ('OTPCredential' in window) {
+        window.addEventListener('DOMContentLoaded', e => {
+            const ac = new AbortController();
+            navigator.credentials.get({
+                otp: { transport:['sms'] },
+                signal: ac.signal
+            }).then(otp => {
+                const code = otp.code;
+                code.split('').forEach((char, i) => { if(otpBoxes[i]) otpBoxes[i].value = char; });
+                verifyOTP();
+            }).catch(err => console.log(err));
+        });
+    }
 
-// 🔹 Intelligent Phone Input
-phoneInput.addEventListener('input', () => {
-  clearTimeout(debounceTimer);
-  const val = phoneInput.value.replace(/\D/g, ''); 
-  phoneInput.value = val;
-  setMessage("");
+    // 2. Phone Input logic with Debounce
+    phoneInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        const val = phoneInput.value.replace(/\D/g, ''); 
+        phoneInput.value = val;
+        setMessage("");
 
-  if (val.length === 10) {
-    debounceTimer = setTimeout(() => {
-      // Check Honeypot (Anti-Bot)
-      if(document.getElementById("honeypot").value !== "") return;
-      autoCheck(val);
-    }, 600);
-  }
-});
-
-async function autoCheck(phone) {
-  currentPhone = phone;
-  try {
-    let res = await fetch("/get-student", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ phone })
+        if (val.length === 10) {
+            debounceTimer = setTimeout(() => {
+                if(document.getElementById("honeypot").value !== "") return;
+                autoCheck(val);
+            }, 600);
+        }
     });
 
-    if (res.ok) {
-      let data = await res.json();
-      setMessage(`Welcome back, ${data.name}`, "name");
-      if (!otpSent) sendOTP();
-    } else {
-      setMessage("Account not found", "error");
-      triggerShake();
+    async function autoCheck(phone) {
+        currentPhone = phone;
+        try {
+            let res = await fetch("/get-student", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ phone })
+            });
+
+            if (res.ok) {
+                let data = await res.json();
+                setMessage(`Welcome, ${data.name}`, "name");
+                if (!otpSent) sendOTP();
+            } else {
+                setMessage("Student record not found", "error");
+                triggerShake();
+            }
+        } catch (e) {
+            setMessage("Connection error. Try again.", "error");
+        }
     }
-  } catch (e) {
-    setMessage("Network unreachable", "error");
-  }
-}
 
-async function sendOTP() {
-  otpSent = true;
-  let res = await fetch("/send-otp", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ phone: currentPhone })
-  });
+    async function sendOTP() {
+        otpSent = true;
+        try {
+            let res = await fetch("/send-otp", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ phone: currentPhone })
+            });
 
-  if (res.ok) {
-    const section = document.getElementById("otpSection");
-    section.classList.remove("hidden");
-    section.classList.add("fade-in");
-    otpBoxes[0].focus();
-    startTimer();
-  }
-}
-
-function startTimer() {
-  clearInterval(resendInterval);
-  let time = 60;
-  const btn = document.getElementById("resendBtn");
-  resendInterval = setInterval(() => {
-    time--;
-    btn.innerText = `Resend available in ${time}s`;
-    if (time <= 0) {
-      clearInterval(resendInterval);
-      btn.disabled = false;
-      btn.innerText = "Resend OTP";
+            if (res.ok) {
+                document.getElementById("otpSection").classList.remove("hidden");
+                otpBoxes[0].focus();
+                startTimer();
+            }
+        } catch (e) {
+            console.error("OTP send failed");
+        }
     }
-  }, 1000);
-}
 
-// 🔹 OTP Navigation & Auto-Submit
-otpBoxes.forEach((input, i) => {
-  input.addEventListener("input", () => {
-    if (input.value && otpBoxes[i + 1]) {
-      otpBoxes[i + 1].focus();
+    function startTimer() {
+        clearInterval(resendInterval);
+        let time = 60;
+        const btn = document.getElementById("resendBtn");
+        btn.disabled = true;
+        resendInterval = setInterval(() => {
+            time--;
+            btn.innerText = `Resend available in ${time}s`;
+            if (time <= 0) {
+                clearInterval(resendInterval);
+                btn.disabled = false;
+                btn.innerText = "Resend OTP";
+            }
+        }, 1000);
     }
-    // Auto-submit logic
-    const allFilled = Array.from(otpBoxes).every(box => box.value.length === 1);
-    if (allFilled) verifyOTP();
-  });
 
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Backspace" && !input.value && otpBoxes[i - 1]) {
-      otpBoxes[i - 1].focus();
-    }
-  });
+    // 3. OTP Navigation & Auto-submit
+    otpBoxes.forEach((input, i) => {
+        input.addEventListener("input", () => {
+            if (input.value && otpBoxes[i + 1]) {
+                otpBoxes[i + 1].focus();
+            }
+            const allFilled = Array.from(otpBoxes).every(box => box.value.length === 1);
+            if (allFilled) verifyOTP();
+        });
 
-  input.addEventListener("paste", (e) => {
-    const data = e.clipboardData.getData("text").slice(0, 4).split("");
-    data.forEach((char, idx) => { if (otpBoxes[idx]) otpBoxes[idx].value = char; });
-    verifyOTP();
-  });
-});
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !input.value && otpBoxes[i - 1]) {
+                otpBoxes[i - 1].focus();
+            }
+        });
 
-async function verifyOTP() {
-  let otp = "";
-  otpBoxes.forEach(i => otp += i.value);
-  if(otp.length < 4) return;
-
-  const btn = document.getElementById("verifyBtn");
-  btn.innerText = "Authenticating...";
-  btn.disabled = true;
-
-  try {
-    let res = await fetch("/verify-otp", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ phone: currentPhone, otp })
+        input.addEventListener("paste", (e) => {
+            const data = e.clipboardData.getData("text").slice(0, 4).split("");
+            data.forEach((char, idx) => { if (otpBoxes[idx]) otpBoxes[idx].value = char; });
+            verifyOTP();
+        });
     });
 
-    let data = await res.json();
+    async function verifyOTP() {
+        let otp = "";
+        otpBoxes.forEach(i => otp += i.value);
+        if(otp.length < 4) return;
 
-    if (data.success) {
-      setMessage("Identity Verified ✓", "success");
-      setTimeout(() => { window.location.href = data.link; }, 800);
-    } else {
-      setMessage("Incorrect code. Try again.", "error");
-      triggerShake();
-      btn.innerText = "Verify Identity";
-      btn.disabled = false;
-      otpBoxes.forEach(b => b.value = "");
-      otpBoxes[0].focus();
+        const btn = document.getElementById("verifyBtn");
+        const originalText = btn.innerText;
+        btn.innerText = "AUTHENTICATING...";
+        btn.disabled = true;
+
+        try {
+            let res = await fetch("/verify-otp", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ phone: currentPhone, otp })
+            });
+
+            let data = await res.json();
+
+            if (data.success) {
+                setMessage("Access Granted ✓", "success");
+                setTimeout(() => { window.location.href = data.link; }, 800);
+            } else {
+                setMessage("Invalid code. Please check again.", "error");
+                triggerShake();
+                btn.innerText = originalText;
+                btn.disabled = false;
+                otpBoxes.forEach(b => b.value = "");
+                otpBoxes[0].focus();
+            }
+        } catch (e) {
+            btn.disabled = false;
+            btn.innerText = originalText;
+        }
     }
-  } catch (e) {
-    btn.disabled = false;
-  }
-}
 
-function setMessage(msg, type="") {
-  const el = document.getElementById("message");
-  el.innerText = msg;
-  el.className = "message-area " + type;
-}
+    function resendOTP() {
+        otpSent = false;
+        sendOTP();
+    }
 
-function triggerShake() {
-  card.classList.add("shake");
-  setTimeout(() => card.classList.remove("shake"), 400);
-}
+    function setMessage(msg, type="") {
+        const el = document.getElementById("message");
+        el.innerText = msg;
+        el.className = "message-area " + type;
+    }
+
+    function triggerShake() {
+        card.classList.add("shake");
+        setTimeout(() => card.classList.remove("shake"), 400);
+    }
 </script>
 
 </body>
